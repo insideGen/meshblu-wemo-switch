@@ -12,8 +12,8 @@ It's recommend to be used with Gateblu, but if you want to run it by itself, you
 
 ```
 {
-  "uuid":   "<your meshblu-wemo uuid>",
-  "token":  "<your meshblu-wemo token>",
+  "uuid":   "<your meshblu-wemo-switch uuid>",
+  "token":  "<your meshblu-wemo-switch token>",
   "server": "meshblu.octoblu.com",
   "port":   "80"
 }
