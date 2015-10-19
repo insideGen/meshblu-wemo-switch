@@ -1,8 +1,9 @@
 'use strict';
 var util          = require('util');
 var EventEmitter  = require('events').EventEmitter;
-var debug         = require('debug')('meshblu-wemo-switch');
+var debug         = require('debug')('meshblu-wemo-switch:index');
 var Wemo          = require('wemo-client');
+var _             = require('lodash');
 
 var MESSAGE_SCHEMA = {
   type: 'object',
