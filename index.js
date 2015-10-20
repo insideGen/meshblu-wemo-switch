@@ -2,8 +2,8 @@
 var util          = require('util');
 var EventEmitter  = require('events').EventEmitter;
 var debug         = require('debug')('meshblu-wemo-switch:index');
-var Wemo          = require('wemo-client');
 var _             = require('lodash');
+var Wemo          = require('wemo-client');
 
 var MESSAGE_SCHEMA = {
   type: 'object',
@@ -58,14 +58,14 @@ Plugin.prototype.setOptions = function(options) {
     self.client = undefined;
   }
   self.wemo.discover(function(deviceInfo) {
-    //console.log(deviceInfo.friendlyName);
+    //console.log('%s: %s', deviceInfo.deviceType.split(':')[3], deviceInfo.friendlyName);
     if (deviceInfo.deviceType.split(':')[3] === 'controllee' && deviceInfo.friendlyName === self.options.friendlyName)
     {
-      //console.log('Create WeMo client: ', deviceInfo.friendlyName);
+      //console.log('Create WeMo client: %s', deviceInfo.friendlyName);
       self.client = self.wemo.client(deviceInfo);
       self.client.on('binaryState', function(value) {
         //console.log('state changed: ', value);
-        self.emit('message', {devices: ['*'], topic: 'state-changed', payload: {on: (value === "1") ? true : false}});
+        self.emit('message', { "devices": ['*'], "topic": 'state-changed', "payload": { "on": (value === "1") ? true : false } });
       });
     }
   });
