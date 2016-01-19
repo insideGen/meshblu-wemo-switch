@@ -51,20 +51,21 @@ Plugin.prototype.onConfig = function(device) {
 
 Plugin.prototype.setOptions = function(options) {
   var self = this;
+  debug("setOptions: %j", options);
   self.options = options;
-  if (self.client && self.wemo._clients[self.client.UDN]) {
-    self.wemo._clients[self.client.UDN].removeAllListeners();
-    delete self.wemo._clients[self.client.UDN];
-    self.client = undefined;
+  for(var udnClient in self.wemo._clients) {
+    self.wemo._clients[udnClient].removeAllListeners();
+    delete self.wemo._clients[udnClient];
   }
+  self.client = undefined;
   self.wemo.discover(function(deviceInfo) {
-    //console.log('%s: %s', deviceInfo.deviceType.split(':')[3], deviceInfo.friendlyName);
+    debug('%s: %s', deviceInfo.deviceType.split(':')[3], deviceInfo.friendlyName);
     if (deviceInfo.deviceType.split(':')[3] === 'controllee' && deviceInfo.friendlyName === self.options.friendlyName)
     {
-      //console.log('Create WeMo client: %s', deviceInfo.friendlyName);
+      debug('Create WeMo client: %s', deviceInfo.friendlyName);
       self.client = self.wemo.client(deviceInfo);
       self.client.on('binaryState', function(value) {
-        //console.log('state changed: ', value);
+        debug('State changed: %s', value);
         self.emit('message', { "devices": ['*'], "topic": 'state-changed', "payload": { "on": (value === "1") ? true : false } });
       });
     }
