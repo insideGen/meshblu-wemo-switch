@@ -59,6 +59,7 @@ Plugin.prototype.setOptions = function(options) {
   }
   self.client = undefined;
   self.wemo.discover(function(deviceInfo) {
+    debug('Device searched: %s', self.options.friendlyName);
     debug('%s: %s', deviceInfo.deviceType.split(':')[3], deviceInfo.friendlyName);
     if (deviceInfo.deviceType.split(':')[3] === 'controllee' && deviceInfo.friendlyName === self.options.friendlyName)
     {
